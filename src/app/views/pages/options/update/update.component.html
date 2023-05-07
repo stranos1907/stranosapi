@@ -1,0 +1,107 @@
+<div
+  class="d-flex justify-content-between align-items-center flex-wrap grid-margin"
+>
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Ayarlar
+    </h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-12">
+    <div class="card grid-margin">
+      <div class="card-body">
+
+        <div class="form-group mb-3">
+          <label class="form-label">Default Coin</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Default Coin"
+            [(ngModel)]="options.defaultCoin"
+            required
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Otomatik Mesaj (Dk)</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Otomatik Mesaj (Dk)"
+            [(ngModel)]="options.messageDelay"
+            required
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Mesaj Jeton Sayısı</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Mesaj Jeton Sayısı"
+            [(ngModel)]="options.messageCoin"
+            required
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Resim Jeton Sayısı</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Resim Jeton Sayısı"
+            [(ngModel)]="options.imageCoin"
+            required
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Instagram/Telefon Jeton Sayısı</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Instagram/Telefon Jeton Sayısı"
+            [(ngModel)]="options.instagramCoin"
+            required
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Google Key</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Google Key"
+            [(ngModel)]="options.googleKey"            
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Kredi Kartı Açıklama</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Kredi Kartı Açıklama"
+            [(ngModel)]="options.creditText"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Kredi Kartı Url</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Kredi Kartı Url"
+            [(ngModel)]="options.creditUrl"
+          />
+        </div>
+
+
+      </div>
+      <div class="card-footer">
+        <button (click)="send()" class="btn btn-success"><span class="btn-prepared"><i class="feather icon-save"></i></span> Ayarları Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>

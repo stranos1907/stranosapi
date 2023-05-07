@@ -1,0 +1,171 @@
+<div
+  class="d-flex justify-content-between align-items-center flex-wrap grid-margin"
+>
+  <h4 class="mb-3 mb-md-0">Dialoglar</h4>
+</div>
+<div class="input-group mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Ara..."
+    aria-label="Ara"
+    (keyup.enter)="search()"
+    aria-describedby="button-addon2"
+    [(ngModel)]="searchText"
+  />
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    id="button-addon2"
+    (click)="search()">
+    Ara
+  </button>
+</div>
+
+<div class="card grid-margin d-none d-lg-block">
+  
+  <div class="card-body">
+    <div class="table-responsive">
+      <ngx-datatable
+        #myTable
+        class="bootstrap expandable"
+        [headerHeight]="50"
+        [columnMode]="'force'"
+        [loadingIndicator]="isLoading"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]="dialogs"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)="setPage($event)"
+        [externalPaging]="true"
+        [scrollbarH]="true"
+      >
+        <ngx-datatable-column
+          name="Index"
+          [width]="60"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template ngx-datatable-header-template>
+            <span>#</span>
+          </ng-template>
+          <ng-template
+            let-rowIndex="rowIndex"
+            let-row="row"
+            ngx-datatable-cell-template
+          >
+            <b>{{ rowIndex + 1 }}</b>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="user1">
+          <ng-template ngx-datatable-header-template>
+            <span>Gönderen Üye</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value?.name}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="user2">
+          <ng-template ngx-datatable-header-template>
+            <span>Alıcı Üye</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value?.name}}
+          </ng-template>
+        </ngx-datatable-column>
+      
+
+        <ngx-datatable-column name="lastMessage">
+          <ng-template ngx-datatable-header-template>
+            <span>Mesaj</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value?.message }}</p>
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="lastMessage" [sortable]="true" [comparator]="compareByCreatedAt">
+          <ng-template ngx-datatable-header-template>
+            <span>Tarih</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{
+              value?.createdAt
+              | date: "dd-MM-yyyy HH:mm"
+              }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column
+          [width]="200"
+          [resizeable]="true"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="true"
+        >
+          <ng-template ngx-datatable-header-template>
+            <span>İşlem</span>
+          </ng-template>
+
+         
+
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a [href]="getLink(row)" target="_blank">
+              Link
+            </a>
+            <a ngbTooltip="Detay"  (click)="openInNewTab(row)" class="btn btn-icon btn-light m-2" ><span class="btn-label"><i class="feather icon-mail"></i></span></a>
+            <button ngbTooltip="Sil" (click)="delete(row)"   class="btn text-danger btn-icon btn-light  m-2" ><span class="btn-label"><i class="feather icon-x"></i></span></button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+<div class="d-md-block d-lg-none">
+  <div class="row " >
+    <div
+      class="col-12 col-sm-6 col-md-6 col-lg-6 stretch-card"
+      *ngFor="let item of dialogs; let i = index"
+    >
+      <div class="card stretch-card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4 p-0 ">
+              <img
+                [src]="item.image"
+                style="object-fit: cover"
+                onerror="this.src='https://iili.io/HXZCvcv.md.png';"
+                class="card-img-top"
+                [alt]="item.name"
+              />
+
+            </div>
+            <div class="col-8">
+              Gönderen Üye:
+              <b class="card-title">
+                {{ item.user1?.name  }}
+              </b>
+              <br/>
+              Alıcı:
+              <b class="card-title">
+                {{ item.user2?.name  }}
+              </b>
+              <p>{{item.lastMessage?.message}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer p-1">        
+          <button ngbTooltip="Sil" (click)="delete(item)"   class="btn text-danger btn-icon btn-light  m-2" ><span class="btn-label"><i class="feather icon-x"></i></span></button>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+</div>

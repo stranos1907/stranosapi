@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      <a [routerLink]="['../list']" placement="bottom" ngbTooltip="Geri Dön" class="btn btn-link btn-icon"><i
+          class="feather icon-arrow-left"></i></a>
+      Oto İşlem
+    </h4>
+  </div>
+</div>
+<div class="card grid-margin">
+  <div class="card-header">İşlem Ekle</div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Period</label>
+          <input type="text" class="form-control" placeholder="Period" [(ngModel)]="job.period" required />
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-sm-12">
+        <button type="submit" (click)="job.period = '* * * * *'"  class="btn btn btn-outline-primary btn-icon-text">
+          <i class="btn-icon-prepend feather icon-save"></i>
+          Dakikada 1
+        </button>
+        <button type="submit" (click)="job.period = '0 * * * *'" class="btn btn btn-outline-primary btn-icon-text">
+          <i class="btn-icon-prepend feather icon-save"></i>
+          Saatte 1
+        </button>
+        <button type="submit" (click)="job.period = '0 0 * * *'"  class="btn btn btn-outline-primary btn-icon-text">
+          <i class="btn-icon-prepend feather icon-save"></i>
+          Hergün Saat GECE 12 de
+        </button>
+      </div>
+
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Son Kaç Kullanıcı İçinden </label>
+          <input type="text" class="form-control" placeholder="Kullanıcı Sayısı" [(ngModel)]="job.randomUserCount" required />
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Kaç Kişiye </label>
+          <input type="text" class="form-control" placeholder="Kullanıcı Sayısı" [(ngModel)]="job.userCount" required />
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Son Kaç Mesajdan Rasgele</label>
+          <input type="text" class="form-control" placeholder="Mesaj Sayısı" [(ngModel)]="job.messageCount" required />
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-footer d-flex gap-2">
+    <button type="submit" (click)="add()" class="btn btn-success btn-icon-text">
+      <i class="btn-icon-prepend feather icon-save"></i>
+      Kaydet
+    </button>
+  </div>
+</div>

@@ -1,0 +1,272 @@
+<div class="row chat-wrapper">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row position-relative">
+          <div class="col-lg-4 chat-aside border-end-lg">
+            <div class="aside-content">
+              <div class="aside-header">
+                <div class="d-flex justify-content-between align-items-center pb-2 mb-2"></div>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="feather icon-search icon-md cursor-pointer"></i>
+                  </div>
+                  <input type="text" class="form-control" id="searchForm" [(ngModel)]="searchText"
+                    (input)="searchMessages()" placeholder="Dialoglarda Arayın..." />
+                </div>
+              </div>
+              <div class="aside-body">
+                <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs nav-fill mt-3">
+                  <li [ngbNavItem]="1">
+                    <div class="indicator" style="height: 1px" [ngClass]="{
+                        'bg-success': this.socket?.ioSocket?.connected,
+                        'bg-danger': !this.socket?.ioSocket?.connected
+                      }"></div>
+
+                    <ng-template ngbNavContent>
+                      <div class="ps" [perfectScrollbar]>
+                        <ul class="list-unstyled chat-list px-1">
+                          <li class="chat-item pe-1" *ngFor="let item of dialogs" [ngStyle]="{
+                              'background-color':
+                                selectedDialog?._id == item._id
+                                  ? '#E8E6EA'
+                                  : 'white'
+                            }">
+                            <a href="" (click)="selectDialog(item); (false)" class="d-flex align-items-center">
+                              <figure class="mb-0 me-2">
+                                <img onerror="this.src='https://iili.io/HXZCvcv.md.png';" [src]="item?.user2?.pp"
+                                  class="img-xs rounded-circle" alt="user" />
+                                <div class="status online"></div>
+                              </figure>
+                              <div class="d-flex justify-content-between flex-grow-1 border-bottom">
+                                <div>
+                                  <p class="text-body fw-bolder">
+                                    {{ item?.user1?.name }}
+                                    <i class="feather icon-arrow-right pr-2 pl-2"></i>
+                                    {{ item?.user2?.name }}
+                                  </p>
+                                  <p class="text-muted tx-13">
+                                    {{ item?.lastMessage?.message }}
+                                  </p>
+                                </div>
+                                <div class="d-flex flex-column align-items-end">
+                                  <p class="text-muted tx-13 mb-1">
+                                    {{
+                                    item.lastMessage?.createdAt
+                                    | date: "HH:mm"
+                                    }}
+                                  </p>
+                                  <div *ngIf="item?.unReadCount > 0" class="badge rounded-pill bg-primary ms-auto">
+                                    {{ item?.unReadCount }}
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </ng-template>
+                  </li>
+
+                  <!-- End chat tab-->
+
+                  <!-- End calls tab-->
+
+                  <!-- End contacts tab-->
+                </ul>
+                <div [ngbNavOutlet]="defaultNav" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedDialog != null" class="col-lg-8 chat-content">
+            <div class="chat-header border-bottom pb-2">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                  <i (click)="backToChatList()"
+                    class="feather icon-corner-up-left icon-md me-2 ms-n2 text-muted d-lg-none"></i>
+                  <figure class="mb-0 me-2">
+                    <img [src]="selectedDialog?.user1?.pp" onerror="this.src='https://iili.io/HXZCvcv.md.png';"
+                      class="img-sm rounded-circle" alt="image" />
+                    <div *ngIf="selectedDialog.user1?.online" class="status online"></div>
+                  </figure>
+                  <div>
+                    <p>
+                      {{ selectedDialog?.user1?.name
+                      }}<i class="feather icon-arrow-right pr-2 pl-2"></i>
+                      {{ selectedDialog?.user2?.name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="ml-auto" style="text-align: center;">
+
+                  <input style="margin-right: 10px;" type="checkbox" name="send_message" id="send_message"
+                    [(ngModel)]="systemMessage">
+                  <label class="form-label " style="margin-right: 10px;" for="send_message">Sistem mesajı gönder</label>
+
+
+                  <button (click)="deleteDialog()" ngbTooltip="Görüşmeyi Sil" class="btn btn-danger btn-sm">
+                    <i class="feather icon-trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="chat-body align-items-baseline" [perfectScrollbar] #psBottom="ngxPerfectScrollbar"
+                style="min-height: 60vh">
+                <ul class="messages" style="flex-direction: column-reverse">
+                  <li *ngFor="let item of messages" class="message-item" [ngClass]="{
+                      me: (!item.systemMessage && item.sender.fake),
+                      friend: (!item.systemMessage && !item.sender.fake),
+                      system: item.systemMessage
+                    }">
+                    <img *ngIf="!item.systemMessage" onerror="this.src='https://iili.io/HXZCvcv.md.png';" [src]="item.sender.pp"
+                      class="img-xs rounded-circle" alt="avatar" />
+                    <div class="content">
+                      <div class="message">
+                        <div class="d-flex justify-content-between">
+                          <button *ngIf="item.sender.fake" (click)="deleteMessage(item)" class="btn">
+                            <i class="feather icon-trash-2"></i>
+                          </button>
+                          <div class="bubble" *ngIf="!item.image">
+                            <p>
+                              {{ item.message }}
+                            </p>
+                            
+                          </div>
+                          <button *ngIf="!item.sender.fake" (click)="deleteMessage(item)" class="btn">
+                            <i class="feather icon-trash-2"></i>
+                          </button>
+                        </div>
+                        <img *ngIf="item.image" [src]="item.image"
+                          onerror="this.src='https://iili.io/HXZCvcv.md.png';" style="
+                            height: 100px;
+                            width: 175px;
+                            object-fit: contain;
+                          " class="img-thumbnail border border-1" />
+                          <p *ngIf="item.systemMessage || item.coinMessage">
+                            Sistem mesajıdır.
+                          </p>
+                          <p *ngIf="item.sendedCoin != null && item.sendedCoin > 0">
+                            {{ item.sendedCoin }} jeton gönderildi.
+                          </p>
+                        <span>{{ item.createdAt | date: "HH:mm" }}</span>
+                        
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="chat-footer">
+                <div class="row">
+                  <div class="col-12 col-md-3 ">
+                    <ng-template #popContent>
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <ul class="list-group list-group-flush p-0">
+                            <li class="list-group-item p-0">
+                              <span>Ad Soyad</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user1?.name +
+                                " " +
+                                selectedDialog?.user1?.sur_name
+                                }}
+                              </b>
+                              <b *ngIf="selectedDialog?.user1?.fake" class="text-danger">(F)</b>
+                            </li>
+                            <li class="list-group-item p-0">
+                              <span>Yaş</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user1?.age
+                                }}</b>
+                            </li>
+                            <li class="list-group-item p-0">
+                              <span>Şehir</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user1?.city ? selectedDialog?.user1?.city : "Belirtilmemiş"
+                                }}</b>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <ul class="list-group list-group-flush p-0">
+                            <li class="list-group-item p-0">
+                              <span>Ad Soyad</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user2?.name +
+                                " " +
+                                selectedDialog?.user2?.sur_name
+                                }}
+                              </b>
+                              <b *ngIf="selectedDialog?.user2?.fake" class="text-danger">(F)</b>
+
+                            </li>
+                            <li class="list-group-item p-0">
+                              <span>Yaş</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user2?.age
+                                }}</b>
+                            </li>
+                            <li class="list-group-item p-0">
+                              <span>Şehir</span>
+                              <br />
+                              <b>{{
+                                selectedDialog?.user2?.city ? selectedDialog?.user2?.city : "Belirtilmemiş"
+                                }}</b>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+
+
+                    </ng-template>
+                    <div class="d-flex justify-content-between mb-2 mb-sm-0">
+                      <button [ngbPopover]="popContent" popoverTitle="Profil Bilgileri" type="button"
+                        class="btn border btn-icon rounded-circle me-2" ngbTooltip="Bilgi">
+                        <i class="feather icon-info text-muted"></i>
+                      </button>
+                      <button type="button" class="btn border btn-icon rounded-circle me-2"
+                        ngbTooltip="Jeton Bitti Mesajı Gönder" (click)="newCoinMessage()">
+                        <i class="feather icon-dollar-sign text-muted"></i>
+                      </button>
+                      <button type="button" class="btn border btn-icon rounded-circle me-2" ngbTooltip="Resim Ekle"
+                        (click)="fileInput.click()">
+                        <i class="feather icon-paperclip text-muted"></i>
+                        <input #fileInput type="file" hidden (change)="imageChanged($event)" />
+                      </button>
+                    </div>
+
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <div class="input-group">
+                      <form class="search-form flex-grow-1 me-2" (submit)="newMessage()">
+                        <div class="input-group">
+                          <textarea autosize type="text" class="form-control" id="chatForm" (keyup.enter)="newMessage()"
+                            placeholder="{{systemMessage ? 'Sistem Mesajı Yaz':'Mesaj Yaz'}}" [(ngModel)]="messageText"
+                            [ngModelOptions]="{ standalone: true }"></textarea>
+                        </div>
+                      </form>
+                      <div class="input-group-append">
+                        <div>
+                          <button type="button" (click)="newMessage()" class="btn btn-primary btn-icon rounded-circle">
+                            <i class="feather icon-send"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Hobiler
+    </h4>
+  </div>
+</div>
+<div class="card grid-margin">
+  <div class="card-header">Hobi Ekle</div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Başlık</label>
+          <input type="text" class="form-control" placeholder="Başlık" [(ngModel)]="hobby.name" required />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Açıklama</label>
+          <input type="text" class="form-control" placeholder="Açıklama" [(ngModel)]="hobby.desc" required />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Index</label>
+          <input type="number" class="form-control" placeholder="Index" [(ngModel)]="hobby.index" required />
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Hobi Resmi</label>
+          <input class="form-control" type="file" accept="image/*"  (change)="imageChanged($event)" >
+        </div>
+        <button (click)="hobby.image = null" class="btn btn-light">
+          <img
+            [src]="hobby.image"
+            style="width: 75px; height: 100px; object-fit: contain"
+          /><br />
+          <i class="feather icon-x"></i> Kaldır
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-footer d-flex gap-2">
+    <button type="submit" (click)="add()" [disabled]="newHobby" class="btn btn-success btn-icon-text">
+      <i class="btn-icon-prepend feather icon-save"></i>
+      Kaydet
+    </button>
+
+  </div>
+</div>

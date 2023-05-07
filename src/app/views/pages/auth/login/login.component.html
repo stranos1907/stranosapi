@@ -1,0 +1,51 @@
+<div class="row w-100 mx-0 auth-page">
+  <div class="col-md-8 col-xl-6 mx-auto">
+    <div class="card" style="align-items: center;">
+      
+        <div class="col-md-8 ps-md-0">
+          <div class="px-4 py-4">            
+            <a routerLink="." class="nobleui-logo d-block mb-2"
+              ><span>CHATLİO</span><a> Admin Paneli</a> </a> 
+            
+            <h5 class="text-muted fw-normal mb-4"></h5>
+            <form class="forms-sample" style="align-items: center;">
+              <div class="mb-3">
+                <label for="Email" class="form-label">Kullanıcı Adı</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="Email"
+                  placeholder="Kullanıcı Adı"
+                  [(ngModel)]="username"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="Password" class="form-label">Şifre</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="Password"
+                  autocomplete="current-password"
+                  [ngModelOptions]="{ standalone: true }"
+                  [(ngModel)]="password"
+                  placeholder="Password"
+                />
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  (click)="onLoggedin($event)"
+                >
+                  Giriş Yap
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>

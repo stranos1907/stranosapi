@@ -1,0 +1,162 @@
+<div
+  class="d-flex justify-content-between align-items-center flex-wrap grid-margin"
+>
+  <h4 class="mb-3 mb-md-0">Paketler</h4>
+  <a
+    type="submit"
+    [routerLink]="['/package/create']"
+    class="btn btn-success btn-icon-text"
+  >
+    <i class="btn-icon-prepend feather icon-plus"></i>
+    Yeni Paket Ekle
+  </a>
+</div>
+
+<div class="card grid-margin d-none d-lg-block">
+  <div class="card-header">Paket Listesi</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <ngx-datatable
+        #myTable
+        class="bootstrap expandable"
+        [headerHeight]="50"
+        [columnMode]="'force'"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+        (page)="setPage($event)"
+        [externalPaging]="true"
+        [loadingIndicator]="isLoading"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]="data"
+        [scrollbarH]="true"
+      >
+        <ngx-datatable-column
+          name="Index"
+          [width]="60"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template ngx-datatable-header-template>
+            <span>#</span>
+          </ng-template>
+          <ng-template
+            let-rowIndex="rowIndex"
+            let-row="row"
+            ngx-datatable-cell-template
+          >
+            <b>{{ rowIndex + 1 * page.pageNumber }}</b>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="name">
+          <ng-template ngx-datatable-header-template>
+            <span>Başlık</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="price">
+          <ng-template ngx-datatable-header-template>
+            <span>Ücret</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value | currency: " " }}₺</p>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="sku">
+          <ng-template ngx-datatable-header-template>
+            <span>SKU</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value }}</p>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="value">
+          <ng-template ngx-datatable-header-template>
+            <span>Jeton</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value }}</p>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="index">
+          <ng-template ngx-datatable-header-template>
+            <span>Sıra</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value }}</p>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="vip">
+          <ng-template ngx-datatable-header-template>
+            <span>Tür</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>{{ value ? "VİP" : "Jeton" }}</p>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          [width]="200"
+          [resizeable]="true"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="true"
+        >
+          <ng-template ngx-datatable-header-template>
+            <span>İşlem</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+         <a ngbTooltip="Düzenle"  [routerLink]="['/package/edit',row._id]" class="btn btn-icon btn-light m-1" ><span class="btn-label"><i class="feather icon-edit"></i></span></a>
+         <button ngbTooltip="Sil" (click)="delete(row._id)"   class="btn text-danger btn-icon btn-light  m-1" ><span class="btn-label"><i class="feather icon-x"></i></span></button>
+
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+<div class="d-md-block d-lg-none">
+  <div class="row " >
+    <div
+      class="col-12 col-sm-6 col-md-6 col-lg-6 stretch-card"
+      *ngFor="let item of data; let i = index"
+    >
+      <div class="card stretch-card mb-3">
+        <div class="card-body">
+          <b class="card-title">
+            {{ item.name }}
+          </b>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Jeton</span>
+              <b>{{ item.coins }}</b>
+            </li>
+            <li class="list-group-item ">
+              <span>Ücret</span><br>
+              <b>{{ item.price|currency:" "}}₺</b>
+            </li>
+            <li class="list-group-item ">
+              <span>SKU</span><br>
+              <b>{{ item.sku}}₺</b>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer p-1">
+          <a ngbTooltip="Düzenle"  [routerLink]="['/package/edit',item._id]" class="btn btn-icon btn-light m-1" ><span class="btn-label"><i class="feather icon-edit"></i></span></a>
+          <button ngbTooltip="Sil" (click)="delete(item._id)"   class="btn text-danger btn-icon btn-light  m-1" ><span class="btn-label"><i class="feather icon-x"></i></span></button>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <ngb-pagination [collectionSize]="page.totalElements" (click)="setPage2(pageNumber)"  [ellipses]="false"  [(page)]="pageNumber" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+    </div>
+  </div>
+
+</div>

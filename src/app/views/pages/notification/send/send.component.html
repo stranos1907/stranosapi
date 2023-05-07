@@ -1,0 +1,68 @@
+<div
+  class="d-flex justify-content-between align-items-center flex-wrap grid-margin"
+>
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Bildirimler
+    </h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="card grid-margin">
+      <div class="card-header">
+        Kullanıcı Listesi
+        </div>
+
+      <div class="card-body">
+        <div class="form-group mb-3">
+          <label class="form-label">Üyeler</label>
+          <ng-select
+            [items]="userList"
+            bindValue="_id"
+            bindLabel="name"
+            [hideSelected]="true"
+            [(ngModel)]="notification.user"
+          >
+        </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card grid-margin">
+      <div class="card-header">Bildirim Gönder</div>
+
+      <div class="card-body">
+        <div class="form-group mb-3" *ngIf="false">
+          <label class="form-label">Konu</label>
+          <ng-select [items]="topicList" [(ngModel)]="topics" bindValue="_id" bindLabel="name"></ng-select>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Başlık</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Başlık"
+            [(ngModel)]="notification.name"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Açıklama</label>
+          <textarea
+            type="text"
+            class="form-control"
+            placeholder="Açıklama"
+            [(ngModel)]="notification.desc"
+            required
+          ></textarea>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <button (click)="send()" class="btn btn-success"><span class="btn-prepared"><i class="feather icon-send"></i></span> Bildirim Gönder</button>
+      </div>
+    </div>
+  </div>
+</div>

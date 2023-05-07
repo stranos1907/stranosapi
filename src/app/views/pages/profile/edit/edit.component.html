@@ -1,0 +1,211 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      <a [routerLink]="['../../list']" placement="bottom" ngbTooltip="Geri Dön" class="btn btn-link btn-icon"><i
+          class="feather icon-arrow-left"></i></a>
+          Fake Hesaplar
+    </h4>
+  </div>
+</div>
+<div class="card grid-margin">
+  <div class="card-header">Profil Düzenle</div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Ad</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ad"
+            [(ngModel)]="user.name"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Ad</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Soyad"
+            [(ngModel)]="user.sur_name"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Doğum Tarihi</label>
+          <input
+            type="date"
+            class="form-control"
+            placeholder="Doğum Tarihi"
+            [(ngModel)]="birthdayText"
+            [min]=""
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Cinsiyet</label>
+          <select class="form-control" [(ngModel)]="user.gender">
+            <option [value]="1" selected>Kadın</option>
+            <option [value]="2">Erkek</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email"
+            [(ngModel)]="user.email"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Şifre</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Şifre"
+            [(ngModel)]="user.password"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Açıklama</label>
+          <textarea
+            class="form-control"
+            placeholder="Açıklama"
+            [(ngModel)]="user.desc"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">İnstagram</label>
+          <input type="email" class="form-control" placeholder="İnstagram"  [(ngModel)]="user.instagram" required />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Telefon</label>
+          <input type="email" class="form-control" placeholder="Telefon"  [(ngModel)]="user.phone" required />
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Sesli Not</label>
+          <input
+            class="form-control"
+            type="file"
+            accept="audio/mp3,audio/*;capture=microphone"
+            (change)="audioChanged($event)"
+          />
+        
+          
+          <div *ngIf="user?.audio_note" class="d-flex justify-content-center align-items-center flex-wrap">
+            <audio controls *ngIf="user?.audio_note">
+              <source [src]="user?.audio_note" type="audio/mpeg" />
+            </audio>
+            <button (click)="removeAudio()" class="btn btn-danger">
+              <i class="feather icon-x"></i> Sil
+            </button>
+          </div>
+          
+
+
+        </div>
+      </div>
+
+      <div class="col-md-12 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Profil Fotosu</label>
+          <input
+            class="form-control"
+            type="file"
+            accept="image/*"
+            (change)="imageChanged($event)"
+          />
+          <img
+            [src]="user?.pp"
+            *ngIf="user?.pp"
+            style="height: 75px"
+            class="img-fluid"
+          />
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <div class="form-group mb-3">
+          <label class="form-label">Galeri</label>
+          <input
+            class="form-control"
+            type="file"
+            multiple
+            accept="image/*"
+            (change)="galleryChanged($event)"
+          />
+          <div>
+            <button
+              (click)="removeGallery(item)"
+              class="btn btn-light m-2"
+              *ngFor="let item of user?.images"
+            >
+              <img
+                class="img-fluid"
+                style="width: 75px; height: 75px; object-fit: contain"
+                [src]="item"
+              />
+              <br /><i class="feather icon-x"></i> Resmi Kaldır
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-xlg-6">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title">Hobiler</h6>
+            <div class="button-group">
+              
+                <button *ngFor="let row of hobbies" [ngClass]="{
+                  'btn-outline-info': !row.selected,
+                  'btn-info': row.selected
+                  }" type="button" style="margin-left: 5px;" (click)="select(row)" class="btn">{{row.name}}</button>
+              
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="card-footer d-flex gap-2">
+    <button
+      type="submit"
+      [disabled]="!ready"
+      (click)="update()"
+
+      class="btn btn-success btn-icon-text"
+    >
+      <i class="btn-icon-prepend feather icon-save"></i>
+      {{ ready ? "Güncelle" : "Lütfen Bekleyin" }}
+    </button>
+    <a class="text-primary mt-2" *ngIf="saving">Bilgiler kaydediliyor lütfen bekleyin.</a>
+    <a class="text-primary mt-2" *ngIf="savingPhoto">Dosyalar yükleniyor lütfen bekleyin.</a>
+  </div>
+</div>

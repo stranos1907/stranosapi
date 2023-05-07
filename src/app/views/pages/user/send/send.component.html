@@ -1,0 +1,57 @@
+<div
+  class="d-flex justify-content-between align-items-center flex-wrap grid-margin"
+>
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      Mesaj Gönder
+    </h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="card grid-margin">
+      <div class="card-header">
+        Mesajı Gönderen Profili Seçin
+        <br/>
+        <small>Daha önce sohbeti olmayan fake Hesaplar listelenir.</small>
+        </div>
+
+      <div class="card-body">
+        <div class="form-group mb-3">
+          <label class="form-label">Fake Hesaplar</label>
+          <ng-select
+            [items]="userList"
+            bindValue="_id"
+            bindLabel="name"
+            [hideSelected]="true"
+            [(ngModel)]="profile"
+          >
+        </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card grid-margin">
+      <div class="card-header">Mesaj Gönder</div>
+
+      <div class="card-body">
+        <div class="form-group mb-3">
+          <label class="form-label">Mesaj</label>
+          <textarea
+            type="text"
+            class="form-control"
+            placeholder="Mesaj..."
+            [(ngModel)]="messageText"
+            required
+          ></textarea>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <button (click)="newMessage(false)" class="btn btn-success"><span class="btn-prepared"><i class="feather icon-send"></i></span> Gönder</button>
+        <button (click)="newMessage(true)" style="margin-left: 20px;" class="btn btn-success"><span class="btn-prepared"><i class="feather icon-send"></i></span> Gönder ve Chat' git</button>
+      </div>
+    </div>
+  </div>
+</div>

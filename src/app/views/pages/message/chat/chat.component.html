@@ -1,0 +1,336 @@
+<div class="row chat-wrapper">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row position-relative">
+          <div class="col-lg-4 chat-aside border-end-lg">
+            <ul ngbNav #horizontalCenterNav="ngbNav" class="nav-tabs justify-content-center">
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>Kullanıcı</a>
+                <ng-template ngbNavContent>
+                  <div style="text-align:center;">
+                    <img onerror="this.src='https://iili.io/HXZCvcv.md.png';" [src]="user1?.pp"
+                      style="width: 100px; height: 100px; object-fit: cover;" class="rounded-circle" alt="user" />
+                    <div class="col-12 col-sm-12">
+                      <ul class="list-group list-group-flush p-0">
+                        <br />
+                        <li class="list-group-item p-0">
+                          <span>Ad Soyad</span>
+                          <br />
+                          <b>{{
+                            user1?.name
+                            }}
+                          </b>
+                          <b *ngIf="selectedDialog?.user1?.fake" class="text-danger">(F)</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Yaş</span>
+                          <br />
+                          <b>{{
+                            user1?.age
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Email/Telefon</span>
+                          <br />
+                          <b>{{
+                            user1?.email ?? user1.phone
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>İnstagram</span>
+                          <br />
+                          <b>{{
+                            user1?.instagram ?? "Belirtilmemiş"
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Şehir</span>
+                          <br />
+                          <b>{{
+                            user1?.city ? user1?.city : "Belirtilmemiş"
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Jeton</span>
+                          <br />
+                          <b>{{
+                            user1?.coins ? user1?.coins : "Belirtilmemiş"
+                            }}</b>
+                            <span *ngIf="isVip(user1)" class="badge bg-warning">VİP</span>
+                        </li>
+
+                        <li class="list-group-item p-0">
+                          <button
+                          class="btn btn-sm btn-light m-1 text-danger"
+                          ngbTooltip="{{ user1?.banned ? 'Banı Kaldır' : 'Banla' }}"
+                          (click)="banUser(user1)"
+                        >
+                          Banla
+                          <i class="feather icon-alert-octagon"></i>
+                        </button>
+                        </li>
+
+                        <li class="list-group-item p-0">
+                          <button
+                          class="btn btn-sm btn-info m-1"
+                          ngbTooltip="Telefon/İnstagram mesajı göndermek için lütfen VİP üye olun."
+                          (click)="sendVipMessage()"
+                        >
+                          Vip Ol Mesajı Gönder
+                          <i class="feather icon-mail"></i>
+                        </button>
+                        </li>
+
+                        <li class="list-group-item p-0">
+                          <button
+                          class="btn btn-sm btn-info m-1"
+                          ngbTooltip="Uygunsuz resim/içerik gönderimi yasaktır. Lütfen kurallara uyalım. Kurallara uymadığınız takdirde hesabınız kapanabilir."
+                          (click)="sendNudeMessage()"
+                        >
+                          Uygunsuz Mesajı Gönder
+                          <i class="feather icon-mail"></i>
+                        </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <a ngbNavLink>Fake</a>
+                <ng-template ngbNavContent>
+                  <div style="text-align:center;">
+                    <img onerror="this.src='https://iili.io/HXZCvcv.md.png';" [src]="user2?.pp"
+                      style="width: 100px; height: 100px; object-fit: cover;" class="rounded-circle" alt="user" />
+                    <div class="col-12 col-sm-12">
+                      <ul class="list-group list-group-flush p-0">
+                        <br />
+                        <li class="list-group-item p-0">
+                          <span>Ad Soyad</span>
+                          <br />
+                          <b>{{
+                            user2?.name
+                            }}
+                          </b>
+                          <b *ngIf="user2?.fake" class="text-danger">(F)</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Yaş</span>
+                          <br />
+                          <b>{{
+                            user2?.age
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Email/Telefon</span>
+                          <br />
+                          <b>{{
+                            user2?.email ?? user2.phone
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>İnstagram</span>
+                          <br />
+                          <b>{{
+                            user2?.instagram ?? "Belirtilmemiş"
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Şehir</span>
+                          <br />
+                          <b>{{
+                            user2?.city ? user2?.city : "Belirtilmemiş"
+                            }}</b>
+                        </li>
+                        <li class="list-group-item p-0">
+                          <span>Jeton</span>
+                          <br />
+                          <b>{{
+                            user2?.coins ? user2?.coins : "Belirtilmemiş"
+                            }}</b>
+                            <span *ngIf="isVip(user2)" class="badge bg-warning">VİP</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </ng-template>
+              </li>
+
+            </ul>
+
+            <div [ngbNavOutlet]="horizontalCenterNav" class="border border-top-0 p-3"></div>
+          </div>
+          <div *ngIf="selectedDialog != null" class="col-lg-8 chat-content show">
+            <div class="chat-header border-bottom pb-2">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                  <figure class="mb-0 me-2">
+                    <img [src]="selectedDialog?.user1?.pp" onerror="this.src='https://iili.io/HXZCvcv.md.png';"
+                      class="img-sm rounded-circle" alt="image" />
+                    <div *ngIf="selectedDialog.user1?.online" class="status online"></div>
+                  </figure>
+                  <div>
+                    <p>
+                      {{ selectedDialog?.user1?.name
+                      }}<i class="feather icon-arrow-right pr-2 pl-2"></i>
+                      {{ selectedDialog?.user2?.name }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="ml-auto" style="text-align: center;">
+                  <ng-template #popContent>
+                    <ul class="list-group list-group-flush p-2">
+                      <li class="list-group-item p-2" (click)="addEmoji('😊')">
+                        <span>Güler yüz</span>
+                        <span>😊</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('❤️')">
+                        <span>Kalp</span>
+                        <span>❤️</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('😘')">
+                        <span>Öpücük</span>
+                        <span>😘</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('🌹')">
+                        <span>Gül</span>
+                        <span>🌹</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('🎂')">
+                        <span>Pasta</span>
+                        <span>🎂</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('🎁')">
+                        <span>Hediye</span>
+                        <span>🎁</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('🎉')">
+                        <span>Kutlama</span>
+                        <span>🎉</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('👍')">
+                        <span>Tamam</span>
+                        <span>👍</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('👎')">
+                        <span>Hayır</span>
+                        <span>👎</span>
+                      </li>
+                      <li class="list-group-item p-2" (click)="addEmoji('💩')">
+                        <span>Kaka</span>
+                        <span>💩</span>
+                      </li>
+                    </ul>
+                    
+                  </ng-template>
+
+                  <label class="form-label " style="margin-right: 10px;" for="send_message">Sistem mesajı gönder</label>
+                  <input style="margin-right: 10px;" type="checkbox" name="send_message" id="send_message"
+                    [(ngModel)]="systemMessage">
+
+                  <button [ngbPopover]="popContent" autoClose="false" popoverTitle="Emojiler" type="button"
+                    class="btn border btn-icon rounded-circle me-2" ngbTooltip="Emojiler">
+                    <i class="feather icon-star text-muted"></i>
+                  </button>
+
+                  <button (click)="deleteDialog()" ngbTooltip="Görüşmeyi Sil" class="btn btn-danger btn-sm">
+                    <i class="feather icon-trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div style="min-height: 400px;" class="chat-body align-items-baseline" [perfectScrollbar]
+                #psBottom="ngxPerfectScrollbar">
+                <ul class="messages" style="flex-direction: column-reverse">
+                  <li *ngFor="let item of messages" class="message-item" [ngClass]="{
+                      me: (!item.systemMessage && item.sender.fake),
+                      friend: (!item.systemMessage && !item.sender.fake),
+                      system: item.systemMessage
+                    }">
+                    <img *ngIf="!item.systemMessage" onerror="this.src='https://iili.io/HXZCvcv.md.png';"
+                      [src]="item.sender.pp" class="img-xs rounded-circle" alt="avatar" />
+                    <div class="content">
+                      <div class="message">
+                        <div class="d-flex justify-content-between">
+                          <button *ngIf="item.sender.fake" (click)="deleteMessage(item)" class="btn">
+                            <i class="feather icon-trash-2"></i>
+                          </button>
+                          <div class="bubble" *ngIf="!item.image">
+                            <p>
+                              {{ item.message }}
+                            </p>
+
+                          </div>
+                          <button *ngIf="!item.sender.fake" (click)="deleteMessage(item)" class="btn">
+                            <i class="feather icon-trash-2"></i>
+                          </button>
+                        </div>
+                        <img *ngIf="item.image" [src]="item.image"
+                          onerror="this.src='https://iili.io/HXZCvcv.md.png';" style="
+                            height: 100px;
+                            width: 175px;
+                            object-fit: contain;
+                          " class="img-thumbnail border border-1" />
+                        <p *ngIf="item.systemMessage || item.coinMessage">
+                          Sistem mesajıdır.
+                        </p>
+                        <p *ngIf="item.sendedCoin != null && item.sendedCoin > 0">
+                          {{ item.sendedCoin }} jeton gönderildi.
+                        </p>
+                        <span>{{ item.createdAt | date: "HH:mm" }}</span>
+
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="chat-footer">
+                <div class="row">
+                  <div class="col-12 col-md-3 ">
+                    
+                    <div class="d-flex justify-content-between mb-2 mb-sm-0">
+                    
+                      <button type="button" class="btn border btn-icon rounded-circle me-2"
+                        ngbTooltip="Jeton Bitti Mesajı Gönder" (click)="newCoinMessage()">
+                        <i class="feather icon-dollar-sign text-muted"></i>
+                      </button>
+                      <button type="button" class="btn border btn-icon rounded-circle me-2" ngbTooltip="Resim Ekle"
+                        (click)="fileInput.click()">
+                        <i class="feather icon-paperclip text-muted"></i>
+                        <input #fileInput type="file" hidden (change)="imageChanged($event)" />
+                      </button>
+                    </div>
+
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <div class="input-group">
+                      <form class="search-form flex-grow-1 me-2" (submit)="newMessage()">
+                        <div class="input-group">
+                          <textarea #chatInput autosize type="text" class="form-control" id="chatForm" (keyup.enter)="newMessage()"
+                            placeholder="{{systemMessage ? 'Sistem Mesajı Yaz':'Mesaj Yaz'}}" [(ngModel)]="messageText"
+                            [ngModelOptions]="{ standalone: true }"></textarea>
+                        </div>
+                      </form>
+                      <div class="input-group-append">
+                        <div>
+                          <button type="button" (click)="newMessage()" class="btn btn-primary btn-icon rounded-circle">
+                            <i class="feather icon-send"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
